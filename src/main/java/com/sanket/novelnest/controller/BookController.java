@@ -50,11 +50,11 @@ public class BookController {
             @RequestParam MultipartFile file)
             throws IOException {
 
-        Files.createDirectories(Paths.get("Uploads"));
+        Files.createDirectories(Paths.get("uploads"));
 
         String fileName = file.getOriginalFilename();
 
-        Path path = Paths.get("Uploads", fileName);
+        Path path = Paths.get("uploads", fileName);
 
         file.transferTo(path);
 
@@ -65,5 +65,10 @@ public class BookController {
         book.setPdfPath(fileName);
 
         return repository.save(book);
+    }
+    @GetMapping("/search")
+    public List<Book>search(@RequestParam String title)
+    {
+        return repository.findByTitleContainingIgnoreCase(title);
     }
 }
